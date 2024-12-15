@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace ApplicationFlow.Exit.Abstract
+﻿namespace ApplicationFlow.Exit.Abstract
 {
     public interface IApplicationExitRoutine
     {

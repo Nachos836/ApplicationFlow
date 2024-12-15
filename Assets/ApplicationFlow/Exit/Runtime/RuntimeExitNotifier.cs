@@ -3,7 +3,10 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+
+#if FLOW_WITH_VCONTAINER
 using VContainer.Unity;
+#endif
 
 using static System.Threading.CancellationTokenSource;
 

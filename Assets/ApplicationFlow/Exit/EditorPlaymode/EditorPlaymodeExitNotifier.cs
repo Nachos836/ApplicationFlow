@@ -4,7 +4,10 @@ using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEditor;
+
+#if FLOW_WITH_VCONTAINER
 using VContainer.Unity;
+#endif
 
 using static System.Threading.CancellationTokenSource;
 
@@ -14,7 +17,19 @@ namespace ApplicationFlow.Exit.EditorPlaymode
 
     public sealed class EditorPlaymodeExitNotifier : IApplicationExitNotifier, IAsyncStartable, IDisposable
     {
+        private readonly Action<PlayModeStateChange> _playModeStateChanged;
+
         private CancellationTokenSource? _abortion;
+
+        public EditorPlaymodeExitNotifier()
+        {
+            _playModeStateChanged = change =>
+            {
+                if (change != PlayModeStateChange.ExitingPlayMode) return;
+
+                _abortion?.Cancel();
+            };
+        }
 
         CancellationToken IApplicationExitNotifier.AboutToExitToken
         {
@@ -31,7 +46,7 @@ namespace ApplicationFlow.Exit.EditorPlaymode
             _abortion?.Dispose();
             _abortion = CreateLinkedTokenSource(cancellation, UnityEngine.Application.exitCancellationToken);
 
-            EditorApplication.playModeStateChanged += PlayModeStateChanged;
+            EditorApplication.playModeStateChanged += _playModeStateChanged;
 
             return UniTask.CompletedTask;
         }
@@ -43,14 +58,7 @@ namespace ApplicationFlow.Exit.EditorPlaymode
             _abortion.Dispose();
             _abortion = null;
 
-            EditorApplication.playModeStateChanged -= PlayModeStateChanged;
-        }
-
-        private void PlayModeStateChanged(PlayModeStateChange change)
-        {
-            if (change != PlayModeStateChange.ExitingPlayMode) return;
-
-            _abortion?.Cancel();
+            EditorApplication.playModeStateChanged -= _playModeStateChanged;
         }
     }
 }

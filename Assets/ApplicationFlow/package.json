@@ -8,5 +8,29 @@
 	"license": "MIT",
 	"documentationUrl": "https://github.com/Nachos836/ApplicationFlow",
 	"changelogUrl": "https://github.com/Nachos836/ApplicationFlow/releases",
-	"licensesUrl": "https://github.com/Nachos836/ApplicationFlow/blob/master/LICENSE"
+	"licensesUrl": "https://github.com/Nachos836/ApplicationFlow/blob/master/LICENSE",
+	"author": {
+		"name": "Sergey Shevchuk",
+		"email": "DEV_SergeyShevchuk@proton.me",
+		"url": "https://github.com/Nachos836"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Nachos836/ApplicationFlow.git",
+		"revision": "master"
+	},
+	"dependencies": {
+		"com.cysharp.unitask": "2.5.10",
+		"jp.hadashikick.vcontainer": "1.16.6"
+	},
+	"scopedRegistries": [
+		{
+			"name": "OpenUPM",
+			"url": "https://package.openupm.com",
+			"scopes": [
+				"com.cysharp.unitask",
+				"jp.hadashikick.vcontainer"
+			]
+		}
+	]
 }
